@@ -40,6 +40,42 @@ services:
       timeout: 5s
       retries: 5
 
+  dagster:
+    build:
+      context: ./packages/dagster
+      dockerfile: Dockerfile
+    container_name: ecommerce-dagster
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: ${POSTGRES_USER:-ecommerce_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ecommerce_password}
+      POSTGRES_DB: ${POSTGRES_DB:-ecommerce_db}
+      ELASTICSEARCH_HOST: elasticsearch
+      ELASTICSEARCH_PORT: 9200
+      ELASTICSEARCH_SCHEME: http
+      SCRAPER_OUTPUT_PATH: ../scraper/output/products.json
+      LOG_LEVEL: info
+      DEBUG: "false"
+    ports:
+      - "3050:3050"
+    volumes:
+      - ./packages/dagster:/app
+      - ./packages/scraper/output:/app/../scraper/output
+    depends_on:
+      postgres:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - ecommerce-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3050/api/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
 volumes:
   postgres_data:
   elasticsearch_data:
