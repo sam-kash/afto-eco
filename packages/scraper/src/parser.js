@@ -3,7 +3,7 @@ const logger = require('./utils/logger');
 class ProductParser {
   /**
    * Parse products from page HTML
-   * NOTE: Selectors need to be adjusted based on actual website structure
+   * This site uses AngularJS and lazy-loading images
    */
   async parseProductsFromPage(page) {
     logger.info('Parsing products from page');
@@ -12,40 +12,60 @@ class ProductParser {
       const products = await page.evaluate(() => {
         const items = [];
         
-        // NOTE: These selectors are examples - adjust based on actual website HTML
-        const productElements = document.querySelectorAll('[data-product]');
+        // Target: product links in the grid
+        const productElements = document.querySelectorAll('a[href*="/product/"]');
 
-        productElements.forEach((element) => {
+        productElements.forEach((link, index) => {
           try {
+            const productName = link.textContent.trim();
+            if (!productName) return;
+
+            // Find the parent product item for more details
+            let productItem = link.closest('.hs-product-box') || link.closest('.hs-product-info-wrap') || link.closest('[class*="product"]');
+            
+            if (!productItem) {
+              productItem = link;
+            }
+
+            const imgElement = productItem.querySelector('img');
+            const imageUrl = imgElement?.getAttribute('src') || '';
+
+            // Get price from the product item
+            let price = 0;
+            const dollar = productItem.querySelector('.price-dollar')?.textContent?.trim() || '';
+            const cents = productItem.querySelector('.price-cents')?.textContent?.trim() || '';
+            if (dollar || cents) {
+              price = parseFloat(`${dollar}.${cents || '00'}`) || 0;
+            } else {
+              const priceText = productItem.querySelector('.hs-product-price')?.textContent?.trim() || '';
+              price = parseFloat(priceText.replace(/[^0-9.]/g, '')) || 0;
+            }
+
+            // Get description if available
+            const description = 
+              productItem.querySelector('[data-product-description]')?.textContent?.trim() || 
+              productItem.querySelector('.product-description')?.textContent?.trim() || 
+              '';
+
+            // Get category from breadcrumb or page context
+            const category = document.querySelector('.breadcrumb')?.textContent?.trim() || 'General';
+
             const product = {
-              name:
-                element.querySelector('[data-product-name]')?.textContent?.trim() || '',
-              price: parseFloat(
-                element
-                  .querySelector('[data-product-price]')
-                  ?.textContent?.replace(/[^0-9.]/g, '') || 0
-              ),
-              description:
-                element.querySelector('[data-product-description]')?.textContent?.trim() || '',
-              category:
-                element.querySelector('[data-product-category]')?.textContent?.trim() || '',
-              subcategory:
-                element.querySelector('[data-product-subcategory]')?.textContent?.trim() || '',
-              sku: element.getAttribute('data-sku') || `SKU-${Date.now()}-${Math.random()}`,
-              images: Array.from(
-                element.querySelectorAll('[data-product-image] img')
-              )
-                .map((img) => img.src || img.dataset.src)
-                .filter(Boolean),
-              availability:
-                element.getAttribute('data-availability') || 'in_stock',
+              name: productName,
+              price: price,
+              description: description,
+              category: category,
+              subcategory: productName.split(' ')[0], // Fallback
+              sku: link.href.split('/product/')[1]?.split('/')[0] || productName.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase(),
+              images: imageUrl ? [imageUrl] : [],
+              availability: productItem.querySelector('.out-of-stock') ? 'out_of_stock' : 'in_stock',
             };
 
-            if (product.name && product.price > 0) {
+            if (product.name && product.price >= 0) {
               items.push(product);
             }
           } catch (error) {
-            console.error('Error parsing product element:', error);
+            console.error(`Error parsing product at index ${index}:`, error);
           }
         });
 

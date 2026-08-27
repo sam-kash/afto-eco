@@ -42,74 +42,86 @@ class WebScraper {
     );
   }
 
-  async scrape() {
-    logger.info('Starting scrape', { url: config.TARGET_URL });
+async scrape() {
+  logger.info('Starting scrape', { url: config.TARGET_URL });
 
-    const page = await this.browser.newPage();
-    page.setDefaultTimeout(config.TIMEOUT);
+  const page = await this.browser.newPage();
+  page.setDefaultTimeout(config.TIMEOUT);
 
-    try {
-      // Navigate to website
-      logger.info('Navigating to website');
-      await page.goto(config.TARGET_URL, {
-        waitUntil: 'networkidle2',
-      });
+  try {
+    // Navigate to website
+    logger.info('Navigating to website');
+    await page.goto(config.TARGET_URL, {
+      waitUntil: 'networkidle2',
+    });
 
-      // Scrape all pages
-      let pageCount = 0;
-      let hasNextPage = true;
+    // Scrape all pages
+    let pageCount = 0;
+    let hasNextPage = true;
+    let previousProductCount = 0;
 
-      while (hasNextPage && (!config.MAX_PRODUCTS || this.allProducts.length < config.MAX_PRODUCTS)) {
-        pageCount++;
-        logger.info(`Scraping page ${pageCount}`);
+    while (hasNextPage && (!config.MAX_PRODUCTS || this.allProducts.length < config.MAX_PRODUCTS)) {
+      pageCount++;
+      logger.info(`Scraping page ${pageCount}`);
 
-        try {
-          // Wait for products to load
-          await page.waitForSelector(config.WAIT_SELECTOR, {
-            timeout: 10000,
-          }).catch(() => {
-            logger.warn('Product selector not found, trying to continue');
-          });
+      try {
+        // Wait for products to appear
+        await page.waitForSelector(config.WAIT_SELECTOR, {
+          timeout: 10000,
+        }).catch(() => {
+          logger.warn('Product selector not found on page');
+        });
 
-          // Parse products from current page
-          const pageProducts = await parser.parseProductsFromPage(page);
-          this.allProducts.push(...pageProducts);
+        // Wait for lazy-loaded images
+        logger.info('Waiting for lazy-loaded images');
+        await new Promise(resolve => setTimeout(resolve, config.LAZY_LOAD_WAIT));
 
-          logger.info(`Page ${pageCount}: Found ${pageProducts.length} products`, {
-            totalProducts: this.allProducts.length,
-          });
+        // Scroll to bottom to trigger lazy loading
+        await page.evaluate(() => {
+          window.scrollBy(0, window.innerHeight);
+        });
 
-          // Check for next page button
-          const nextPageButton = await page.$(config.PAGINATION_SELECTOR);
-          
-          if (nextPageButton && (!config.MAX_PRODUCTS || this.allProducts.length < config.MAX_PRODUCTS)) {
-            await page.click(config.PAGINATION_SELECTOR);
-            await page.waitForNavigation({ waitUntil: 'networkidle2' });
-            logger.info('Navigated to next page');
-          } else {
-            hasNextPage = false;
-            logger.info('No more pages to scrape');
-          }
-        } catch (error) {
-          logger.warn(`Error on page ${pageCount}, stopping pagination`, {
-            error: error.message,
-          });
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Parse products from current page
+        const pageProducts = await parser.parseProductsFromPage(page);
+        this.allProducts.push(...pageProducts);
+
+        logger.info(`Page ${pageCount}: Found ${pageProducts.length} products`, {
+          totalProducts: this.allProducts.length,
+        });
+
+        // Check for next page button
+        const nextPageButton = await page.$(config.PAGINATION_SELECTOR);
+        
+        if (nextPageButton && (!config.MAX_PRODUCTS || this.allProducts.length < config.MAX_PRODUCTS)) {
+          logger.info('Found next page button, navigating...');
+          await page.click(config.PAGINATION_SELECTOR);
+          await page.waitForNavigation({ waitUntil: 'networkidle2' });
+          previousProductCount = this.allProducts.length;
+        } else {
           hasNextPage = false;
+          logger.info('No more pages to scrape');
         }
+      } catch (error) {
+        logger.warn(`Error on page ${pageCount}, stopping pagination`, {
+          error: error.message,
+        });
+        hasNextPage = false;
       }
-
-      logger.info('Scraping complete', {
-        totalPages: pageCount,
-        totalProducts: this.allProducts.length,
-      });
-    } catch (error) {
-      logger.error('Scraping failed', { error: error.message });
-      throw error;
-    } finally {
-      await page.close();
     }
-  }
 
+    logger.info('Scraping complete', {
+      totalPages: pageCount,
+      totalProducts: this.allProducts.length,
+    });
+  } catch (error) {
+    logger.error('Scraping failed', { error: error.message });
+    throw error;
+  } finally {
+    await page.close();
+  }
+}
   async saveToJson() {
     logger.info('Saving products to JSON');
 
