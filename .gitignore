@@ -1,0 +1,16 @@
+node_modules/
+.env
+.env.local
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+venv/
+dist/
+build/
+*.log
+.next/
+out/
+.cache/
+postgres_data/
+elasticsearch_data/

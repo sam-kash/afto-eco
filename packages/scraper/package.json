@@ -1,0 +1,24 @@
+{
+  "name": "ecommerce-scraper",
+  "version": "1.0.0",
+  "description": "Web scraper for Summerhill Market products",
+  "main": "src/scraper.js",
+  "scripts": {
+    "scrape": "node src/scraper.js",
+    "scrape:debug": "DEBUG=* node src/scraper.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["scraper", "puppeteer", "ecommerce"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^21.5.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
