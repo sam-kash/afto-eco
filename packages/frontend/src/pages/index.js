@@ -19,16 +19,20 @@ const item = {
   show: { opacity: 1, y: 0 },
 };
 
+const PAGE_SIZE = 12;
+
 export default function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    productService.getAll(12).then((res) => {
+    setLoading(true);
+    productService.getAll(PAGE_SIZE, (page - 1) * PAGE_SIZE).then((res) => {
       setProducts(res.data.data);
       setLoading(false);
     });
-  }, []);
+  }, [page]);
 
   return (
     <div className="min-h-screen">
@@ -72,6 +76,26 @@ export default function Home() {
             ))}
           </motion.div>
         )}
+
+        <div className="flex justify-center items-center gap-4 mt-10">
+          <button
+            type="button"
+            onClick={() => setPage((current) => Math.max(current - 1, 1))}
+            disabled={page === 1 || loading}
+            className="px-4 py-2 rounded border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 transition"
+          >
+            Previous
+          </button>
+          <span className="text-gray-600">Page {page}</span>
+          <button
+            type="button"
+            onClick={() => setPage((current) => current + 1)}
+            disabled={products.length < PAGE_SIZE || loading}
+            className="px-4 py-2 rounded border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 transition"
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );
