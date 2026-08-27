@@ -1,10 +1,12 @@
 const express = require('express');
 const cors = require('cors');
+
 require('dotenv').config();
 
 const productRoutes = require('./routes/products');
 const searchRoutes = require('./routes/search');
 const checkoutRoutes = require('./routes/checkout');
+const apiLimiter = require('./middleware/rateLimit');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -15,6 +17,7 @@ app.use(express.json());
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:3000',
 }));
+app.use('/api', apiLimiter);
 
 // Routes
 app.use('/api/products', productRoutes);
