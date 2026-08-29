@@ -116,15 +116,15 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
       </div>
 
       {/* Filter and Sort Toolbar */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-2 border-b border-[#e6dfd1]">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-3 border-b border-[#e6dfd1]">
         {/* Category Pills Scroll */}
-        <div className="flex gap-2 overflow-x-auto pb-2 lg:pb-0 scrollbar-hide">
+        <div className="flex gap-2.5 overflow-x-auto pb-2 lg:pb-0 scrollbar-hide items-center">
           <Link
             href={`/products?${new URLSearchParams({ ...(q && { q }), ...(sort && { sort }) }).toString()}`}
-            className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wider uppercase border transition-all duration-200 whitespace-nowrap ${
+            className={`inline-flex items-center justify-center px-4.5 py-2 rounded-full text-xs font-semibold tracking-wide transition-all duration-200 whitespace-nowrap leading-none ${
               !category
-                ? 'bg-[#1a3c2a] text-white border-[#1a3c2a] shadow-xs'
-                : 'bg-white text-[#1c1d1b] border-[#e6dfd1] hover:border-[#1a3c2a]'
+                ? 'bg-[#1a3c2a] text-white border border-[#1a3c2a] shadow-xs'
+                : 'bg-white text-[#2c2b29] border border-[#e6dfd1] hover:border-[#1a3c2a] hover:bg-[#faf7f0]'
             }`}
           >
             All Products
@@ -134,10 +134,10 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
               key={cat.id}
               href={`/products?${new URLSearchParams({ ...(q && { q }), category: cat.slug, ...(sort && { sort }) }).toString()}`}
               id={`filter-${cat.slug}`}
-              className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wider uppercase border transition-all duration-200 whitespace-nowrap ${
+              className={`inline-flex items-center justify-center px-4.5 py-2 rounded-full text-xs font-semibold tracking-wide transition-all duration-200 whitespace-nowrap leading-none ${
                 category === cat.slug
-                  ? 'bg-[#1a3c2a] text-white border-[#1a3c2a] shadow-xs'
-                  : 'bg-white text-[#1c1d1b] border-[#e6dfd1] hover:border-[#1a3c2a]'
+                  ? 'bg-[#1a3c2a] text-white border border-[#1a3c2a] shadow-xs'
+                  : 'bg-white text-[#2c2b29] border border-[#e6dfd1] hover:border-[#1a3c2a] hover:bg-[#faf7f0]'
               }`}
             >
               {cat.name}
@@ -155,10 +155,10 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
             <Link
               key={s.value}
               href={`/products?${new URLSearchParams({ ...(q && { q }), ...(category && { category }), sort: s.value }).toString()}`}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-medium border transition-all duration-200 ${
+              className={`inline-flex items-center justify-center px-4 py-2 rounded-full text-xs font-medium transition-all duration-200 leading-none ${
                 sort === s.value
-                  ? 'bg-[#1a3c2a] text-white border-[#1a3c2a]'
-                  : 'bg-white text-[#1c1d1b] border-[#e6dfd1] hover:border-[#1a3c2a]'
+                  ? 'bg-[#1a3c2a] text-white border border-[#1a3c2a]'
+                  : 'bg-white text-[#2c2b29] border border-[#e6dfd1] hover:border-[#1a3c2a]'
               }`}
             >
               {s.label}
@@ -169,24 +169,26 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
 
       {/* Products Grid */}
       {products.length === 0 ? (
-        <div className="bg-white rounded-3xl p-16 text-center border border-[#e6dfd1] space-y-4">
+        <div className="bg-white rounded-3xl p-12 sm:p-16 text-center border border-[#e6dfd1] space-y-5">
           <div className="w-16 h-16 mx-auto rounded-full bg-[#f4efe6] flex items-center justify-center text-[#1a3c2a]">
-            <svg className="w-8 h-8 opacity-50" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+            <svg className="w-8 h-8 opacity-60" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </div>
-          <h3 style={{ fontFamily: "'Playfair Display', serif" }} className="text-2xl font-bold text-[#1a3c2a]">
+          <h3 style={{ fontFamily: "'Playfair Display', serif" }} className="text-2xl sm:text-3xl font-bold text-[#1a3c2a]">
             No matching products found
           </h3>
-          <p className="text-sm text-[#6e6d69] max-w-sm mx-auto">
+          <p className="text-sm text-[#6e6d69] max-w-sm mx-auto leading-relaxed">
             Try checking for spelling errors or clearing your current search filter.
           </p>
-          <Link
-            href="/products"
-            className="inline-block px-6 py-2.5 bg-[#1a3c2a] text-white rounded-full text-xs font-bold uppercase tracking-wider shadow-xs hover:shadow-md transition-all"
-          >
-            Reset All Filters
-          </Link>
+          <div className="pt-2">
+            <Link
+              href="/products"
+              className="inline-flex items-center justify-center px-8 py-3.5 bg-[#1a3c2a] hover:bg-[#2d5a3d] text-white rounded-full text-xs font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+            >
+              Reset All Filters
+            </Link>
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3.5 sm:gap-5">
