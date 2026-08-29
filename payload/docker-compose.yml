@@ -1,0 +1,24 @@
+services:
+  payload:
+    image: node:20-alpine
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/home/node/app
+      - node_modules:/home/node/app/node_modules
+    working_dir: /home/node/app
+    command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://ecommerce_user:ecommerce_password@postgres:5432/ecommerce_db
+    networks:
+      - ecommerce-network
+
+volumes:
+  node_modules:
+
+networks:
+  ecommerce-network:
+    external: true
+    name: afto-eco_ecommerce-network
