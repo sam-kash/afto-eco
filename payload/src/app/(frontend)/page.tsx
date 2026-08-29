@@ -1,25 +1,12 @@
-import { getPayload } from 'payload';
-import config from '@/payload.config';
 import Link from 'next/link';
 import ProductCard from '@/components/ProductCard';
 import CategoryGrid from '@/components/CategoryGrid';
+import { mockCategories, mockProducts } from '@/mockData';
 
-async function getData() {
-  const payload = await getPayload({ config: await config });
-
-  const [categoriesRes, featuredRes] = await Promise.all([
-    payload.find({ collection: 'categories', limit: 30, sort: 'name' }),
-    payload.find({
-      collection: 'products',
-      where: { featured: { equals: true } },
-      limit: 12,
-      depth: 2,
-    }),
-  ]);
-
+function getData() {
   return {
-    categories: categoriesRes.docs,
-    featured: featuredRes.docs,
+    categories: mockCategories,
+    featured: mockProducts,
   };
 }
 
