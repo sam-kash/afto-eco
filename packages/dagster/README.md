@@ -3,7 +3,9 @@
 Orchestrate data ingestion from scraper into PostgreSQL and Elasticsearch.
 
 ## Setup
-
+```bash
+ docker exec ecommerce-dagster dagster job execute -f ecommerce_pipeline/jobs/ingest_pipeline.py
+```
 ### Prerequisites
 
 - Python 3.9+
