@@ -2,16 +2,14 @@
 
 import { useRouter } from 'next/navigation';
 import { useState, FormEvent } from 'react';
-import { motion } from 'framer-motion';
 
 interface Props {
-  compact?: boolean;
   defaultValue?: string;
+  placeholder?: string;
 }
 
-export default function SearchBar({ compact, defaultValue = '' }: Props) {
+export default function SearchBar({ defaultValue = '', placeholder = 'Search fresh produce, prepared meals, bakery...' }: Props) {
   const [query, setQuery] = useState(defaultValue);
-  const [focused, setFocused] = useState(false);
   const router = useRouter();
 
   const handleSearch = (e: FormEvent) => {
@@ -23,35 +21,27 @@ export default function SearchBar({ compact, defaultValue = '' }: Props) {
 
   return (
     <form onSubmit={handleSearch} className="w-full">
-      <motion.div
-        animate={{ scale: focused ? 1.02 : 1 }}
-        transition={{ duration: 0.2 }}
-        className="relative"
-      >
+      <div className="relative flex items-center w-full">
+        <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#8f8d86] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+
         <input
           id="storefront-search-input"
           type="text"
           value={query}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search fresh groceries..."
-          className={`w-full bg-[#f4efe6] border ${
-            focused ? 'border-[#1a3c2a] shadow-sm bg-white' : 'border-[#e6dfd1] hover:border-[#c5bdaf]'
-          } rounded-full pl-4.5 pr-11 text-xs sm:text-sm text-[#1a1a1a] placeholder-[#8f8880] focus:outline-none transition-all duration-200 leading-normal ${
-            compact ? 'py-2.5' : 'py-3.5'
-          }`}
+          placeholder={placeholder}
+          className="w-full h-11 sm:h-12 bg-white border border-[#eae4d8] focus:border-[#143823] rounded-2xl pl-10 sm:pl-11 pr-24 text-xs sm:text-sm text-[#1c1c1a] placeholder-[#8f8d86] focus:outline-none transition-colors shadow-2xs font-sans"
         />
+
         <button
           type="submit"
-          className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#6e6d69] hover:text-[#1a3c2a] transition-colors p-1 flex items-center justify-center"
-          aria-label="Search"
+          className="absolute right-2 top-1/2 -translate-y-1/2 h-7 sm:h-8 px-3.5 bg-[#143823] hover:bg-[#235235] text-white text-xs font-semibold rounded-xl transition-colors flex items-center justify-center"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
+          Search
         </button>
-      </motion.div>
+      </div>
     </form>
   );
 }

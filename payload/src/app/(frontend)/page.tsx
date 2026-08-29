@@ -27,45 +27,84 @@ export default async function HomePage() {
   const { categories, featured } = await getData();
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-10">
-      {/* Summerhill Hero Image Banner */}
-      <section className="relative rounded-3xl overflow-hidden shadow-sm border border-[#e6dfd1] bg-[#f0e8d7] min-h-[220px] sm:min-h-[300px] flex items-center justify-center p-8 text-center">
-        {/* Background decorative gradient */}
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-85"
-          style={{
-            backgroundImage: 'radial-gradient(circle at 50% 40%, #ffffff 0%, #ebe2d3 70%, #d8caa7 100%)',
-          }}
-        />
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+      {/* Hero Banner Section */}
+      <section className="relative rounded-3xl overflow-hidden shadow-xs border border-[#eae4d8] bg-gradient-to-b from-[#f9f5ed] to-[#f0e8d7] p-8 sm:p-12 text-center">
+        <div className="max-w-2xl mx-auto space-y-5">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-[#eae4d8] shadow-2xs text-xs font-semibold uppercase tracking-wider text-[#143823]">
+            <span className="w-2 h-2 rounded-full bg-[#143823]" />
+            Artisanal Groceries · Farm to Table
+          </div>
 
-        <div className="relative z-10 max-w-xl mx-auto space-y-4">
-          <span className="text-[10px] font-extrabold tracking-[0.3em] uppercase text-[#1a3c2a] bg-white/90 backdrop-blur-md px-3.5 py-1 rounded-full border border-[#d6cfc0]">
-            Fresh. Local. Delivered.
-          </span>
-
-          <h1
-            style={{ fontFamily: "'Playfair Display', serif" }}
-            className="text-4xl sm:text-6xl font-black text-[#1a3c2a] leading-tight"
-          >
+          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-black text-[#143823] tracking-tight leading-tight">
             AFTO-ECO
           </h1>
 
-          <p className="text-xs sm:text-sm font-medium text-[#6e6d69] max-w-md mx-auto">
-            Market-fresh produce, artisanal bakery, and chef-prepared foods delivered to your door.
+          <p className="text-xs sm:text-sm md:text-base text-[#6b6a65] font-medium max-w-lg mx-auto leading-relaxed">
+            Curated organic produce, chef-prepared gourmet meals, and pantry essentials delivered fresh to your doorstep.
           </p>
+
+          <div className="pt-3 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/products"
+              id="hero-shop-now-btn"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#143823] hover:bg-[#235235] text-white text-xs sm:text-sm font-semibold rounded-2xl shadow-sm transition-all"
+            >
+              <span>Shop All Products</span>
+              <span>→</span>
+            </Link>
+            <Link
+              href="/products?category=prepared-foods"
+              className="inline-flex items-center justify-center px-6 py-3 bg-white hover:bg-[#faf7f2] text-[#143823] border border-[#eae4d8] text-xs sm:text-sm font-semibold rounded-2xl shadow-2xs transition-all"
+            >
+              Prepared Meals
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Categories Grid (Summerhill 2-row layout) */}
+      {/* Brand Value Props Ribbon */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {[
+          {
+            title: '100% Organic Certified',
+            desc: 'Directly sourced from verified local farms and eco-friendly growers.',
+            icon: '🌱',
+          },
+          {
+            title: 'Same-Day Delivery',
+            desc: 'Order before 2 PM for doorstep delivery anywhere in the city.',
+            icon: '🚚',
+          },
+          {
+            title: 'Chef-Prepared Daily',
+            desc: 'Handcrafted meals made fresh daily in our local kitchen.',
+            icon: '👨‍🍳',
+          },
+        ].map((item, i) => (
+          <div
+            key={i}
+            className="flex items-start gap-3.5 p-5 bg-white rounded-2xl border border-[#eae4d8] shadow-2xs"
+          >
+            <span className="text-2xl p-2.5 rounded-xl bg-[#f5f2ec] flex-shrink-0">{item.icon}</span>
+            <div>
+              <h3 className="font-sans text-xs sm:text-sm font-bold text-[#143823] mb-0.5">{item.title}</h3>
+              <p className="font-sans text-xs text-[#6b6a65] leading-normal font-normal">{item.desc}</p>
+            </div>
+          </div>
+        ))}
+      </section>
+
+      {/* Shop by Category */}
       {categories.length > 0 && (
-        <section className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2
-              style={{ fontFamily: "'Playfair Display', serif" }}
-              className="text-2xl sm:text-3xl font-bold text-[#1a3c2a]"
-            >
-              Shop by Category
-            </h2>
+        <section className="space-y-5">
+          <div className="flex items-center justify-between pb-2 border-b border-[#eae4d8]">
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-[#6b6a65] mb-0.5">Browse Inventory</p>
+              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#143823]">
+                Shop by Category
+              </h2>
+            </div>
           </div>
 
           <CategoryGrid categories={categories.map((c: any) => ({ id: String(c.id), name: c.name, slug: c.slug }))} />
@@ -74,19 +113,19 @@ export default async function HomePage() {
 
       {/* Featured Products */}
       {featured.length > 0 && (
-        <section className="space-y-4 pb-12">
-          <div className="flex items-center justify-between pb-3 border-b border-[#e6dfd1]">
-            <h2
-              style={{ fontFamily: "'Playfair Display', serif" }}
-              className="text-2xl sm:text-3xl font-bold text-[#1a3c2a]"
-            >
-              Featured Products
-            </h2>
+        <section className="space-y-5 pb-8">
+          <div className="flex items-center justify-between pb-2 border-b border-[#eae4d8]">
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-[#6b6a65] mb-0.5">Handpicked Selection</p>
+              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#143823]">
+                Featured Groceries
+              </h2>
+            </div>
             <Link
               href="/products"
-              className="text-xs font-bold text-[#1a3c2a] tracking-wider uppercase border-b border-[#1a3c2a] pb-0.5 hover:opacity-70 transition-opacity"
+              className="text-xs font-bold text-[#143823] hover:underline"
             >
-              See All →
+              Explore All →
             </Link>
           </div>
 

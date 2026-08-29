@@ -1,62 +1,42 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..800;1,400..800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
-
-@theme {
-  --color-cream: #faf7f0;
-  --color-cream-dark: #f2ebd9;
-  --color-green: #1a3c2a;
-  --color-green-light: #2d5a3d;
-  --color-green-accent: #3b7a54;
-  --color-gold: #c59b27;
-  --color-border: #e6dfd1;
-  --color-text: #1c1d1b;
-  --color-text-muted: #6e6d69;
-  --font-serif: 'Playfair Display', Georgia, serif;
-  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
-}
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  font-family: var(--font-sans);
-  background-color: var(--color-cream);
-  color: var(--color-text);
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
 }
 
 body {
-  background-color: var(--color-cream);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  background-color: #faf7f2;
+  color: #1c1c1a;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-h1, h2, h3, h4 {
-  font-family: var(--font-serif);
-  letter-spacing: -0.02em;
+.font-serif {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+.font-sans {
+  font-family: var(--font-sans), system-ui, sans-serif;
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f0ebe0;
+  background: #f2eae0;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #c2b9a7;
+  background: #c8bdab;
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #1a3c2a;
+  background: #143823;
 }
 
 .scrollbar-hide {
@@ -66,29 +46,4 @@ h1, h2, h3, h4 {
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
-}
-
-/* Glassmorphism utilities */
-.glass-nav {
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.glass-card {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(214, 207, 192, 0.6);
-}
-
-/* Subtle Shimmer for loading/placeholders */
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-.animate-shimmer {
-  background: linear-gradient(90deg, #f0ebe0 25%, #e6dfd1 50%, #f0ebe0 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.8s infinite;
 }
