@@ -2,44 +2,58 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="bg-[#1a3c2a] text-white mt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 grid grid-cols-1 md:grid-cols-3 gap-10">
-        {/* About */}
-        <div>
-          <h4 style={{ fontFamily: "'Playfair Display', serif" }} className="text-lg font-semibold mb-4">About</h4>
-          <ul className="space-y-2 text-sm text-[#b5c9bc]">
-            <li><a href="#" className="hover:text-white transition-colors">Manifesto</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Locations</a></li>
-          </ul>
+    <footer className="bg-[#143823] text-[#e2ebd4] border-t border-[#235235] pt-14 pb-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Brand Col */}
+          <div className="space-y-4 md:col-span-1">
+            <span
+              style={{ fontFamily: "'Playfair Display', serif" }}
+              className="text-3xl font-black text-white block"
+            >
+              AFTO-ECO
+            </span>
+            <p className="text-xs text-[#a8bba8] leading-relaxed font-normal">
+              Your neighborhood organic market. Delivering fresh produce, gourmet prepared foods, and artisanal bakery items daily.
+            </p>
+          </div>
+
+          {/* Quick Links */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white">Categories</h4>
+            <ul className="space-y-2 text-xs text-[#a8bba8]">
+              <li><Link href="/products?category=fruits" className="hover:text-white transition-colors">Fresh Produce</Link></li>
+              <li><Link href="/products?category=bakery" className="hover:text-white transition-colors">Artisanal Bakery</Link></li>
+              <li><Link href="/products?category=prepared-foods" className="hover:text-white transition-colors">Prepared Meals</Link></li>
+              <li><Link href="/products?category=beverages" className="hover:text-white transition-colors">Cold Drinks & Juices</Link></li>
+            </ul>
+          </div>
+
+          {/* Customer Service */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white">Customer Support</h4>
+            <ul className="space-y-2 text-xs text-[#a8bba8]">
+              <li><Link href="#" className="hover:text-white transition-colors">Delivery FAQs</Link></li>
+              <li><Link href="#" className="hover:text-white transition-colors">Store Locations</Link></li>
+              <li><Link href="#" className="hover:text-white transition-colors">Refund Policy</Link></li>
+              <li><Link href="#" className="hover:text-white transition-colors">Contact Us</Link></li>
+            </ul>
+          </div>
+
+          {/* Store Hours & Location */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white">Store Hours</h4>
+            <p className="text-xs text-[#a8bba8]">Mon – Sun: 7:00 AM – 9:00 PM</p>
+            <p className="text-xs text-[#a8bba8]">123 Market Street, Toronto, ON</p>
+          </div>
         </div>
 
-        {/* Connect */}
-        <div>
-          <h4 style={{ fontFamily: "'Playfair Display', serif" }} className="text-lg font-semibold mb-4">Connect With Us</h4>
-          <ul className="space-y-2 text-sm text-[#b5c9bc]">
-            <li><a href="https://www.instagram.com/summerhillmarket/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a></li>
-            <li><a href="https://www.facebook.com/SummerhillMarket/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Facebook</a></li>
-          </ul>
-        </div>
-
-        {/* Help */}
-        <div>
-          <h4 style={{ fontFamily: "'Playfair Display', serif" }} className="text-lg font-semibold mb-4">Get Help</h4>
-          <ul className="space-y-2 text-sm text-[#b5c9bc]">
-            <li><a href="#" className="hover:text-white transition-colors">Contact &amp; Hours</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">FAQ</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Orders &amp; Returns</a></li>
-          </ul>
-        </div>
-      </div>
-
-      {/* Bottom bar */}
-      <div className="border-t border-[#2d5a3d] py-5">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-2 text-xs text-[#7da98a]">
-          <span>©{new Date().getFullYear()} AFTO-ECO. All Rights Reserved.</span>
-          <div className="flex gap-4">
-            <a href="#" className="hover:text-white transition-colors">Terms &amp; Conditions</a>
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+        {/* Bottom copyright bar */}
+        <div className="pt-8 border-t border-[#235235] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#8ca48c]">
+          <p>© {new Date().getFullYear()} AFTO-ECO Organic Market. All rights reserved.</p>
+          <div className="flex items-center gap-6">
+            <Link href="#" className="hover:text-white">Privacy Policy</Link>
+            <Link href="#" className="hover:text-white">Terms of Service</Link>
           </div>
         </div>
       </div>

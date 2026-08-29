@@ -1,16 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..800;1,400..800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-cream: #faf7f0;
-  --color-cream-dark: #f2ebd9;
-  --color-green: #1a3c2a;
-  --color-green-light: #2d5a3d;
-  --color-green-accent: #3b7a54;
+  --color-cream: #faf7f2;
+  --color-cream-dark: #f2eae0;
+  --color-forest: #143823;
+  --color-forest-light: #235235;
+  --color-forest-accent: #34704b;
   --color-gold: #c59b27;
-  --color-border: #e6dfd1;
-  --color-text: #1c1d1b;
-  --color-text-muted: #6e6d69;
+  --color-gold-light: #e8c76b;
+  --color-border: #eae4d8;
+  --color-border-dark: #d8cebd;
+  --color-text: #1c1c1a;
+  --color-text-muted: #6b6a65;
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
@@ -27,6 +29,7 @@ html {
   color: var(--color-text);
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -37,26 +40,26 @@ body {
 
 h1, h2, h3, h4 {
   font-family: var(--font-serif);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f0ebe0;
+  background: #f2eae0;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #c2b9a7;
+  background: #c8bdab;
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #1a3c2a;
+  background: #143823;
 }
 
 .scrollbar-hide {
@@ -68,27 +71,18 @@ h1, h2, h3, h4 {
   display: none;
 }
 
-/* Glassmorphism utilities */
-.glass-nav {
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+/* Glassmorphism & Card elevation utilities */
+.glass-header {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
-.glass-card {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(214, 207, 192, 0.6);
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Subtle Shimmer for loading/placeholders */
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-.animate-shimmer {
-  background: linear-gradient(90deg, #f0ebe0 25%, #e6dfd1 50%, #f0ebe0 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.8s infinite;
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px -8px rgba(20, 56, 35, 0.08);
 }
