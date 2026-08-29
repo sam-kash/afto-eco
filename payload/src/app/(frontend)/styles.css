@@ -1,46 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
-
-@theme {
-  --color-cream: #faf7f2;
-  --color-cream-dark: #f2eae0;
-  --color-forest: #143823;
-  --color-forest-light: #235235;
-  --color-forest-accent: #34704b;
-  --color-gold: #c59b27;
-  --color-gold-light: #e8c76b;
-  --color-border: #eae4d8;
-  --color-border-dark: #d8cebd;
-  --color-text: #1c1c1a;
-  --color-text-muted: #6b6a65;
-  --font-serif: 'Playfair Display', Georgia, serif;
-  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
-}
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  font-family: var(--font-sans);
-  background-color: var(--color-cream);
-  color: var(--color-text);
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background-color: var(--color-cream);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  background-color: #faf7f2;
+  color: #1c1c1a;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-h1, h2, h3, h4 {
-  font-family: var(--font-serif);
-  letter-spacing: -0.01em;
+.font-serif {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+.font-sans {
+  font-family: var(--font-sans), system-ui, sans-serif;
 }
 
 /* Custom Scrollbar */
@@ -69,20 +46,4 @@ h1, h2, h3, h4 {
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
-}
-
-/* Glassmorphism & Card elevation utilities */
-.glass-header {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-
-.card-hover {
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 32px -8px rgba(20, 56, 35, 0.08);
 }

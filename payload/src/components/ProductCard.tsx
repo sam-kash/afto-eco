@@ -45,20 +45,20 @@ export default function ProductCard({ product }: Props) {
   };
 
   return (
-    <div className="group bg-white rounded-3xl border border-[#eae4d8] hover:border-[#143823]/40 shadow-2xs hover:shadow-xl transition-all duration-300 flex flex-col h-full overflow-hidden p-3 sm:p-4">
+    <div className="group bg-white rounded-2xl border border-[#eae4d8] hover:border-[#143823]/40 shadow-2xs hover:shadow-md transition-all duration-200 flex flex-col h-full overflow-hidden p-3">
       {/* Product Image Frame */}
-      <Link href={`/products/${product.slug}`} className="block relative aspect-square bg-[#f5f2ec] rounded-2xl overflow-hidden mb-3">
+      <Link href={`/products/${product.slug}`} className="block relative aspect-square bg-[#f5f2ec] rounded-xl overflow-hidden mb-2.5">
         {imageUrl ? (
           <Image
             src={imageUrl}
             alt={product.title}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-            className="object-cover group-hover:scale-106 transition-transform duration-500 ease-out"
+            className="object-cover group-hover:scale-105 transition-transform duration-300 ease-out"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-[#c8bdab]">
-            <svg className="w-10 h-10 opacity-40" fill="none" stroke="currentColor" strokeWidth={1} viewBox="0 0 24 24">
+            <svg className="w-8 h-8 opacity-40" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
             </svg>
           </div>
@@ -66,8 +66,8 @@ export default function ProductCard({ product }: Props) {
 
         {/* Category Pill Tag */}
         {product.category?.name && (
-          <div className="absolute top-2.5 left-2.5">
-            <span className="bg-white/95 backdrop-blur-md text-[#143823] text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-2xs border border-black/5">
+          <div className="absolute top-2 left-2">
+            <span className="bg-white/95 text-[#143823] text-[9px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider shadow-2xs border border-black/5">
               {product.category.name}
             </span>
           </div>
@@ -75,29 +75,28 @@ export default function ProductCard({ product }: Props) {
       </Link>
 
       {/* Title & Info */}
-      <div className="flex flex-col flex-1 justify-between space-y-3 px-1">
+      <div className="flex flex-col flex-1 justify-between space-y-2">
         <Link href={`/products/${product.slug}`}>
-          <h3 className="text-xs sm:text-sm font-semibold text-[#1c1c1a] leading-snug line-clamp-2 group-hover:text-[#143823] transition-colors">
+          <span className="font-sans text-xs font-bold text-[#1c1c1a] leading-tight line-clamp-2 group-hover:text-[#143823] transition-colors block">
             {product.title}
-          </h3>
+          </span>
         </Link>
 
         {/* Price & Add to Cart */}
-        <div className="flex items-center justify-between pt-2 border-t border-[#f2eae0]">
+        <div className="flex items-center justify-between pt-1.5 border-t border-[#f2eae0]">
           <div>
-            <span className="text-xs text-[#6b6a65] block font-medium">Price</span>
-            <span className="text-sm sm:text-base font-extrabold text-[#143823]">
+            <span className="text-[10px] text-[#6b6a65] block font-medium">Price</span>
+            <span className="font-sans text-xs sm:text-sm font-extrabold text-[#143823]">
               ${product.price.toFixed(2)}
             </span>
           </div>
 
           <motion.button
             id={`add-to-cart-${product.id}`}
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.92 }}
+            whileTap={{ scale: 0.94 }}
             onClick={handleAdd}
             disabled={product.inStock === false}
-            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all shadow-2xs flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors shadow-2xs flex items-center gap-1 ${
               added
                 ? 'bg-[#34704b] text-white'
                 : 'bg-[#143823] hover:bg-[#235235] text-white'
@@ -105,10 +104,7 @@ export default function ProductCard({ product }: Props) {
             aria-label={`Add ${product.title} to cart`}
           >
             {added ? (
-              <>
-                <span>✓</span>
-                <span className="hidden sm:inline">Added</span>
-              </>
+              <span>✓ Added</span>
             ) : (
               <>
                 <span>+</span>
