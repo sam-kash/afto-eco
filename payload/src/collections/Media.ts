@@ -7,6 +7,9 @@ const dirname = path.dirname(filename);
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  access: {
+    read: () => true,
+  },
   upload: {
     staticDir: path.resolve(dirname, '../../uploads'),
     staticURL: '/uploads',
